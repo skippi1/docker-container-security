@@ -1,7 +1,10 @@
-FROM alpine:latest
+FROM alpine:3.12.0
 
-MAINTAINER PS <psellars@gmail.com>
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
+HEALTHCHECK --interval=5s --timeout=3s CMD curl -f http://localhost:1313/ || exit 1;
+
+# hadolint ignore=DL3018
 RUN apk add --no-cache \
     curl \
     git \
@@ -9,20 +12,21 @@ RUN apk add --no-cache \
     rsync
 
 ENV VERSION 0.64.0
-RUN mkdir -p /usr/local/src \
-    && cd /usr/local/src \
 
-    && curl -L \
-      https://github.com/gohugoio/hugo/releases/download/v${VERSION}/hugo_${VERSION}_linux-64bit.tar.gz \
-      | tar -xz \
+RUN mkdir -p /usr/local/src
+
+WORKDIR  /usr/local/src 
+
+RUN curl -L \
+      https://github.com/gohugoio/hugo/releases/download/v${VERSION}/hugo_${VERSION}_checksums.txt | grep "hugo_${VERSION}_Linux-64bit.tar.gz" > hugo_${VERSION}_checksums.txt \
+    && curl -L --output hugo_${VERSION}_Linux-64bit.tar.gz \
+      https://github.com/gohugoio/hugo/releases/download/v${VERSION}/hugo_${VERSION}_Linux-64bit.tar.gz \
+    && sha256sum -c hugo_${VERSION}_checksums.txt \
+    && tar xzvf hugo_${VERSION}_Linux-64bit.tar.gz \
     && mv hugo /usr/local/bin/hugo \
-
-    && curl -L \
-      https://bin.equinox.io/c/dhgbqpS8Bvy/minify-stable-linux-amd64.tgz | tar -xz \
-    && mv minify /usr/local/bin/ \
-
     && addgroup -Sg 1000 hugo \
-    && adduser -SG hugo -u 1000 -h /src hugo
+    && adduser -SG hugo -u 1000 -h /src hugo \
+    && rm -rf /usr/local/src
 
 WORKDIR /src
 
