@@ -1,13 +1,15 @@
-default: build
+default: all
 
 SHELL := /bin/bash
 CURRENT_DIR := $(shell cd -P -- '$(shell dirname -- "$0")' && pwd -P)
+
+all: lint build
  
-hadolint:
+lint:
 	@echo "Apply lint to Dockerfile ..."
 	@docker run --rm -i hadolint/hadolint < Dockerfile
 
-build: hadolint
+build: 
 	@echo "Building Hugo Builder container..."
 	@docker build -t lp/hugo-builder .
 	@echo "Hugo Builder container built!"
