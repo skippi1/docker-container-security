@@ -1,5 +1,16 @@
 FROM alpine:3.12.0
 
+LABEL name="lp/hugo-builder" \
+      version="0.1" \
+      release="1.0" \
+      architecture="x86_64" \
+      vendor="markus" \ 
+      maintainer="markus" \
+      io.k8s.description="Live Project Example using Hugo Builder" \
+      io.k8s.display-name="Hugo Builder" \
+      io.openshift.expose-services="1313:http" \
+      io.openshift.tags="builder"
+
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 HEALTHCHECK --interval=5s --timeout=3s CMD curl -f http://localhost:1313/ || exit 1;
@@ -31,3 +42,7 @@ RUN curl -L \
 WORKDIR /src
 
 EXPOSE 1313
+
+USER hugo
+
+CMD [ "hugo", "server", "-w", "--bind=0.0.0.0" ]
