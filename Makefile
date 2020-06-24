@@ -1,6 +1,7 @@
 default: build
 
-CURRENT_DIR := $(shell pwd)
+SHELL=/bin/ash -eo pipefail
+CURRENT_DIR := $(SHELL pwd)
  
 hadolint:
 	@echo "Apply lint to Dockerfile ..."
@@ -14,7 +15,7 @@ build: hadolint
 
 hugo:
 	@echo "Invoke hugo compiler ..."
-        @docker run -it --rm --volume ${CURRENT_DIR}/orgdocs:/src lp/hugo-builder ash -c 'hugo'
+	@docker run -it --rm --volume ${CURRENT_DIR}/orgdocs:/src lp/hugo-builder ash -c 'hugo'
 
 start: 
 	@echo "Starting application ..."
