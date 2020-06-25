@@ -3,7 +3,7 @@ default: all
 SHELL := /bin/bash
 CURRENT_DIR := $(shell cd -P -- '$(shell dirname -- "$0")' && pwd -P)
 
-all: lint build
+all: lint lint2 build
  
 lint:
 	@echo "Apply hadolint to Dockerfile ..."
@@ -11,7 +11,7 @@ lint:
 
 lint2:
 	@echo "Apply dockerfile-lint to Dockerfile ..."
-	@docker run -it --rm -v $(CURRENT_DIR):/root/ projectatomic/dockerfile-lint dockerfile_lint -r policies/security_rules.yml -r policies/my_rules.yml
+	@docker run -it --rm -v $(CURRENT_DIR):/root/ projectatomic/dockerfile-lint dockerfile_lint -r policies/rules.yml 
 
 build: 
 	@echo "Building Hugo Builder container..."

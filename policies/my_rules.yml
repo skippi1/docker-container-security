@@ -37,6 +37,15 @@ line_rules:
           required: true
           valueRegex: /.+/
 
+    HEALTHCHECK:
+      paramSyntaxRegex: /.+/
+      rules:
+        -
+          label: "healthcheck_uses_curl"
+          regex: /curl/
+          level: "error"
+          message: "healthcheck should not use curl command"
+
 required_instructions:
   -
     instruction: "USER"

@@ -13,7 +13,7 @@ LABEL name="lp/hugo-builder" \
 
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
-HEALTHCHECK --interval=5s --timeout=3s CMD curl -f http://localhost:1313/ || exit 1;
+HEALTHCHECK --interval=5s --timeout=3s CMD if [ -f /src/public/index.html ] ; then exit 0; else exit 1; fi
 
 # hadolint ignore=DL3018
 RUN apk add --no-cache \
