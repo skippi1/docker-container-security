@@ -36,4 +36,18 @@ health:
 	@docker inspect --format='{{json .State.Health}}' hugo-server
 	@echo "Health check complete!"
 
+clair:  start-clair clair-scanner stop-clair
+
+clair-scanner: start-clair
+	@docker run --rm --name "scanner" --net=docker-container-security_clairnet -v /var/run/docker.sock:/var/run/docker.sock objectiflibre/clair-scanner --clair="http://clair:6060" --ip="scanner" lp/hugo-builder:latest
+
+start-clair:
+	@echo "Starting clair server ..."
+	@docker-compose up -d
+	@echo "waiting for some seconds ..."
+	@sleep 5
+
+stop-clair:
+	@echo "Shutting down clair server ..."
+	@docker-compose down
 .PHONY: build start
