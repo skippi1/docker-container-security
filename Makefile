@@ -3,7 +3,7 @@ default: all
 SHELL := /bin/bash
 CURRENT_DIR := $(shell cd -P -- '$(shell dirname -- "$0")' && pwd -P)
 
-all: lint lint2 build
+all: lint lint2 build clair
  
 lint:
 	@echo "Apply hadolint to Dockerfile ..."
