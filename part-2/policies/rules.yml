@@ -1,0 +1,7 @@
+---
+profile:
+  name: "My Custom Rules"
+  description: "Set of rules focus on security aspects of Dockerfiles"
+  includes:
+    - my_rules.yml
+    - security_rules.yml
