@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  clair:
+    image: quay.io/coreos/clair:latest
+    command: -config=/config/config.yaml
+    ports:
+      - "6060:6060"
+      - "6061:6061"
+    depends_on:
+      - clairdb
+    volumes:
+      - type: bind
+        source: $PWD/clair_config
+        target: /config
+    networks:
+      - clairnet
+    restart: on-failure
+  clairdb:
+    image: postgres:9.6
+    networks:
+      - clairnet
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+  scanner:
+    image: quay.io/usr42/clair-container-scan:latest
+    links:
+      - clair
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - clair
+networks:
+  clairnet:
+    driver: bridge
+
