@@ -1,5 +1,8 @@
 FROM alpine:3.12.0
 
+ARG BUILD_DATE
+ARG REVISION
+
 LABEL name="lp/hugo-builder" \
       version="0.1" \
       release="1.0" \
@@ -9,7 +12,19 @@ LABEL name="lp/hugo-builder" \
       io.k8s.description="Live Project Example using Hugo Builder" \
       io.k8s.display-name="Hugo Builder" \
       io.openshift.expose-services="1313:http" \
-      io.openshift.tags="builder"
+      io.openshift.tags="builder" 
+LABEL  org.opencontainers.image.created="${BUILD_DATE}"
+LABEL  org.opencontainers.image.authors="" 
+LABEL  org.opencontainers.image.url="" 
+LABEL  org.opencontainers.image.documentation="" 
+LABEL  org.opencontainers.image.source="" 
+LABEL  org.opencontainers.image.version="" 
+LABEL  org.opencontainers.image.revision="${REVISION}" 
+LABEL  org.opencontainers.image.vendor="" 
+LABEL  org.opencontainers.image.licenses="" 
+LABEL  org.opencontainers.image.ref.name=""
+
+ENV BUILD_DATE ${BUILD_DATE:-not-set}
 
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
