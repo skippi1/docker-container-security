@@ -5,3 +5,4 @@ profile:
   includes:
     - my_rules.yml
     - security_rules.yml
+    - governance.yaml

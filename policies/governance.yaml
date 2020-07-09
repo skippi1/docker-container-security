@@ -1,0 +1,57 @@
+---
+profile:
+  name: "Governance Rules"
+  description: "Set of rules focus on governnce aspects of Dockerfiles"
+
+line_rules:
+    LABEL:
+      defined_namevals:
+        maintainer:
+          level: error
+          message: "Label 'maintainer' has invalid format"
+          reference_url:
+            - "https://docs.docker.com/engine/reference/builder/"
+            - "#from"
+          required: true
+          valueRegex: /.+/
+        org.opencontainers.image.created: 
+          level: error
+          message: "date and time on which the image was built (string, date-time as defined by RFC 3339)."
+          required: true
+        org.opencontainers.image.authors: 
+          level: error
+          message: "contact details of the people or organization responsible for the image (freeform string)"
+          required: true
+        org.opencontainers.image.url: 
+          level: error
+          message: "URL to find more information on the image (string)"
+          required: true
+        org.opencontainers.image.documentation: 
+          level: error
+          message: "URL to get documentation on the image (string)"
+          required: true
+        org.opencontainers.image.source: 
+          level: error
+          message: "URL to get source code for building the image (string)"
+          required: true
+        org.opencontainers.image.version: 
+          level: error
+          message: "version of the packaged software"
+          required: true
+        org.opencontainers.image.revision: 
+          level: error
+          message: "Source control revision identifier for the packaged software."
+          required: true
+        org.opencontainers.image.vendor: 
+          level: error
+          message: "Name of the distributing entity, organization or individual."
+          required: true
+        org.opencontainers.image.licenses: 
+          level: error
+          message: "License(s) under which contained software is distributed as an SPDX License Expression."
+          required: true
+        org.opencontainers.image.ref.name:
+          level: error
+          message: "container image name is missing"
+          required: true
+

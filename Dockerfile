@@ -2,6 +2,8 @@ FROM alpine:3.12.0
 
 ARG BUILD_DATE
 ARG REVISION
+ARG VERSION
+ARG IMAGE
 
 LABEL name="lp/hugo-builder" \
       version="0.1" \
@@ -14,15 +16,15 @@ LABEL name="lp/hugo-builder" \
       io.openshift.expose-services="1313:http" \
       io.openshift.tags="builder" 
 LABEL  org.opencontainers.image.created="${BUILD_DATE}"
-LABEL  org.opencontainers.image.authors="" 
-LABEL  org.opencontainers.image.url="" 
-LABEL  org.opencontainers.image.documentation="" 
-LABEL  org.opencontainers.image.source="" 
-LABEL  org.opencontainers.image.version="" 
+LABEL  org.opencontainers.image.authors="Markus Breuer" 
+LABEL  org.opencontainers.image.url="https://github.com/skippi1/docker-container-security" 
+LABEL  org.opencontainers.image.documentation="live project user content" 
+LABEL  org.opencontainers.image.source="https://github.com/skippi1/docker-container-security" 
+LABEL  org.opencontainers.image.version="${VERSION}" 
 LABEL  org.opencontainers.image.revision="${REVISION}" 
-LABEL  org.opencontainers.image.vendor="" 
-LABEL  org.opencontainers.image.licenses="" 
-LABEL  org.opencontainers.image.ref.name=""
+LABEL  org.opencontainers.image.vendor="n/a" 
+LABEL  org.opencontainers.image.licenses="n/a" 
+LABEL  org.opencontainers.image.ref.name="${IMAGE}"
 
 ENV BUILD_DATE ${BUILD_DATE:-not-set}
 
