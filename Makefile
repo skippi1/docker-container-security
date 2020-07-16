@@ -83,4 +83,18 @@ tern:
 	      --docker-image lp/hugo-builder:latest \
 	      > hugo-builder.spdx
 
+notary_key:
+	@echo "create root key:"
+	@echo "shell> docker trust key generate markus"
+	@echo ""
+	notary -d ~/.docker/trust key list
+
+notary_sign:
+	docker tag lp/hugo-builder docker.io/mbreuer/hugo-builder:1.0
+	docker login
+	docker push docker.io/mbreuer/hugo-builder:1.0
+	docker pull docker.io/mbreuer/hugo-builder:1.0
+	docker trust signer add --key markus.pub mbreuer docker.io/mbreuer/hugo-builder:1.0
+
+
 .PHONY: build start tern
