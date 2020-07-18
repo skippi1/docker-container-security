@@ -4,7 +4,7 @@ SHELL := /bin/bash
 CURRENT_DIR := $(shell cd -P -- '$(shell dirname -- "$0")' && pwd -P)
 BUILD_DATE := $(shell date -u +'%Y-%m-%dT%H:%M:%SZ')
 REVISION := $(shell git rev-parse --short HEAD)
-VERSION := $(shell git tag --points-at HEAD --list)
+VERSION := $(shell git describe --abbrev=0)
 IMAGE := "lp/hugo-builder"
 
 all: lint lint2 build clair
@@ -22,7 +22,7 @@ lint2:
 
 build: 
 	@echo "Building Hugo Builder container..." $(BUILD_DATE) 
-	@docker build -t lp/hugo-builder --no-cache=true \
+	@docker build -t ${IMAGE}:${VERSION} --no-cache=true \
 		--build-arg BUILD_DATE=$(BUILD_DATE) \
 		--build-arg REVISION=$(REVISION) \
  		--build-arg VERSION=$(VERSION) \
