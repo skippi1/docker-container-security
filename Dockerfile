@@ -37,7 +37,8 @@ RUN apk add --no-cache \
     curl \
     git \
     openssh-client \
-    rsync
+    rsync \
+    gnupg
 
 ENV VERSION 0.64.0
 
@@ -56,10 +57,18 @@ RUN curl -L \
     && adduser -SG hugo -u 1000 -h /src hugo \
     && rm -rf /usr/local/src
 
+ENV TINI_VERSION v0.19.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc /tini.asc
+RUN gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 \
+ && gpg --batch --verify /tini.asc /tini && \
+ chmod +x /tini
+
+
 WORKDIR /src
 
 EXPOSE 1313
 
-USER hugo
+#USER hugo
 
 CMD [ "hugo", "server", "-w", "--bind=0.0.0.0" ]
