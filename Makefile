@@ -91,11 +91,11 @@ notary_key:
 
 notary_sign: build
 	DOCKER_CONTENT_TRUST=1
-	docker tag lp/hugo-builder docker.io/bfblog/hugo-builder:1.0.0
+	docker tag lp/hugo-builder docker.io/bfblog/hugo-builder:1.5.0
 	docker login --username bfblog
-	docker push docker.io/bfblog/hugo-builder:1.0
-	docker pull docker.io/bfblog/hugo-builder:1.0
-	docker trust signer add --key ~/.docker/trust/markus.pub markus docker.io/bfblog/hugo-builder:1.0
+	docker push docker.io/bfblog/hugo-builder:1.5.0
+	docker pull docker.io/bfblog/hugo-builder:1.5.0
+	docker trust signer add --key ~/.docker/trust/markus.pub markus docker.io/bfblog/hugo-builder:1.5.0
 	docker trust inspect --pretty docker.io/bfblog/hugo-builder
 
 
