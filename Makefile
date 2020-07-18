@@ -85,16 +85,18 @@ tern:
 
 notary_key:
 	@echo "create root key:"
-	@echo "shell> docker trust key generate markus"
+	@echo "shell> docker trust key generate markus --dir ~/.docker/trust"
 	@echo ""
 	notary -d ~/.docker/trust key list
 
-notary_sign:
-	docker tag lp/hugo-builder docker.io/mbreuer/hugo-builder:1.0
-	docker login
-	docker push docker.io/mbreuer/hugo-builder:1.0
-	docker pull docker.io/mbreuer/hugo-builder:1.0
-	docker trust signer add --key markus.pub mbreuer docker.io/mbreuer/hugo-builder:1.0
+notary_sign: build
+	DOCKER_CONTENT_TRUST=1
+	docker tag lp/hugo-builder docker.io/bfblog/hugo-builder:1.0.0
+	docker login --username bfblog
+	docker push docker.io/bfblog/hugo-builder:1.0
+	docker pull docker.io/bfblog/hugo-builder:1.0
+	docker trust signer add --key ~/.docker/trust/markus.pub markus docker.io/bfblog/hugo-builder:1.0
+	docker trust inspect --pretty docker.io/bfblog/hugo-builder
 
 
 .PHONY: build start tern
