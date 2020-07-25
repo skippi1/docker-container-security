@@ -1,4 +1,4 @@
-efault: all
+default: all
 
 SHELL := /bin/bash
 CURRENT_DIR := $(shell cd -P -- '$(shell dirname -- "$0")' && pwd -P)
